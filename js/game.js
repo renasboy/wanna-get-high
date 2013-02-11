@@ -8,6 +8,7 @@ var Game = function (options) {
     var exports = {};
 
     var showLevel   = false;
+    var level       = 1;
 
     var over        = false;
     var won         = false;
@@ -66,15 +67,72 @@ var Game = function (options) {
     var stepLoop = window.requestAnimationFrame(step, canvas);
 
     function reset () {
-        level();
+        startLevel();
         over        = false;
         won         = false;
-        player.init();
     }
 
-    function level() {
+    function startLevel() {
         showLevel   = true;
         setTimeout(function () { showLevel = false; }, 2000);
+        player.init({
+            pocket: getLevelPocket()
+        });
+    }
+
+    function getLevelPocket() {
+        switch (level) {
+            case 1:
+                return {
+                    tobacco: 3,
+                    alcohol: 3
+                };
+            break;
+
+            case 2:
+                return {
+                    tobacco: 3,
+                    alcohol: 2,
+                    marijuana: 1
+                };
+            break;
+
+            case 3:
+                return {
+                    tobacco: 3,
+                    alcohol: 1,
+                    marijuana: 2
+                };
+            break;
+
+            case 4:
+                return {
+                    tobacco: 3,
+                    alcohol: 1,
+                    marijuana: 1,
+                    cocaine: 1
+                };
+            break;
+
+            case 5:
+                return {
+                    tobacco: 3,
+                    alcohol: 0,
+                    marijuana: 2,
+                    cocaine: 2
+                };
+            break;
+
+            case 6:
+                return {
+                    tobacco: 3,
+                    alcohol: 0,
+                    marijuana: 2,
+                    cocaine: 1,
+                    ecstasy: 1,
+                };
+            break;
+        }
     }
 
     function gameOver () {
@@ -86,11 +144,16 @@ var Game = function (options) {
     }
 
     function gameWon () {
+        // if there are no more levels defined
+        level++;
+        if (getLevelPocket()) {
+            reset();
+            return;
+        }
         window.cancelAnimationFrame(stepLoop);
         clear();
         canvas.style.polyfilter = 'none';
         context.drawImage(gameWonBg, 0, 0);
-        goodbye.play();
     }
 
     /*
@@ -134,7 +197,7 @@ var Game = function (options) {
         context.font = '50px Helvetica';
         context.textAlign = 'left';
         context.textBaseline = 'top';
-        context.fillText('Level 1', 100, 300);
+        context.fillText('Level ' + level, 100, 300);
     }
 
     function drawPocket () {
@@ -187,7 +250,7 @@ var Game = function (options) {
         }
     }
     
-    level();
+    startLevel();
 
     return exports;
 };

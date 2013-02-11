@@ -35,7 +35,7 @@ var Player = function (options) {
     // turns to true if pocket is empty
     exports.isLooser    = false;
 
-    exports.init = function () {
+    exports.init = function (options) {
         // initial position
         y               = canvas.height - sizeHeight;
         x               = (canvas.width * 0.5) - (sizeWidth * 0.5);
@@ -45,10 +45,7 @@ var Player = function (options) {
         toleranceShort  = {};
         toleranceLong   = {};
         highOn          = {};
-        pocket          = {
-            tobacco: 3,
-            alcohol: 3
-        };
+        pocket          = options.pocket
         effects         = {
             blur: 0,
             invert: 0,
@@ -250,6 +247,11 @@ var Player = function (options) {
 
     // initialize player
     // also after every life
-    exports.init();
+    exports.init({
+        pocket: {
+            tobacco: 3,
+            alcohol: 3
+        }
+    });
     return exports;
 };
