@@ -1,0 +1,3 @@
+cd images
+montage -tile 5x1 -geometry 44x60 -background none towelie_sober.png towelie_high.png towelie_very_high.png towelie_fucking_high.png towelie_wasted_high.png player_sprite.png
+montage -tile 8x1 -geometry 24x24 -background none tobacco.png alcohol.png marijuana.png cocaine.png heroine.png ecstasy.png lsd.png psilocybin.png high_sprite.png
