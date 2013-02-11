@@ -17,6 +17,8 @@ var Game = function (options) {
     welcome.play();
 
     var goodbye     = new Audio('sounds/bring_a_towel.wav');
+    var error       = new Audio('sounds/error.wav');
+    var uhu         = new Audio('sounds/uhu.wav');
 
     var bg          = new Image();
     bg.src          = 'images/bg.jpg';
@@ -53,6 +55,9 @@ var Game = function (options) {
         if (highs[e.keyCode]) {
             if (player.hasInPocket(highs[e.keyCode]) > 0) {
                 player.getHigh(highs[e.keyCode]);
+            }
+            else {
+                error.play();
             }
         }
         else if (e.keyCode == 37) {
@@ -144,6 +149,7 @@ var Game = function (options) {
     }
 
     function gameWon () {
+        uhu.play();
         // if there are no more levels defined
         level++;
         if (getLevelPocket()) {
