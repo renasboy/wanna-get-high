@@ -20,6 +20,13 @@ var Game = function (options) {
     var error       = new Audio('sounds/error.wav');
     var uhu         = new Audio('sounds/uhu.wav');
 
+    // bg, effect and buffer
+    var bgEffect    = null;
+    var effectCache = {};
+    var buffer      = document.createElement('canvas');
+    buffer.width    = canvas.width;
+    buffer.height   = canvas.height;
+
     var bg          = new Image();
     bg.src          = 'images/bg.jpg';
 
@@ -137,6 +144,94 @@ var Game = function (options) {
                     ecstasy: 1,
                 };
             break;
+
+            case 7:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    cocaine: 1,
+                    lsd: 1
+                };
+            break;
+
+            case 8:
+                return {
+                    tobacco: 3,
+                    marijuana: 1,
+                    cocaine: 1,
+                    lsd: 2
+                };
+            break;
+
+            case 9:
+                return {
+                    tobacco: 3,
+                    marijuana: 1,
+                    lsd: 2
+                };
+            break;
+
+            case 10:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    psilocybin: 2
+                };
+            break;
+
+            case 11:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    psilocybin: 2
+                };
+            break;
+
+            case 12:
+                return {
+                    tobacco: 3,
+                    alcohol: 1,
+                    marijuana: 2,
+                    heroine: 2
+                };
+            break;
+
+            case 13:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    heroine: 2
+                };
+            break;
+
+            case 14:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    heroine: 1
+                };
+            break;
+
+            case 15:
+                return {
+                    tobacco: 3,
+                    marijuana: 2,
+                    heroine: 1
+                };
+            break;
+
+            case 16:
+                return {
+                    tobacco: 3,
+                    alcohol: 3,
+                    marijuana: 3,
+                    cocaine: 3,
+                    heroine: 3,
+                    ecstasy: 3,
+                    lsd: 3,
+                    psilocybin: 3
+                };
+            break;
         }
     }
 
@@ -150,8 +245,8 @@ var Game = function (options) {
 
     function gameWon () {
         uhu.play();
-        // if there are no more levels defined
         level++;
+        // if there are no more levels defined
         if (getLevelPocket()) {
             reset();
             return;
@@ -162,40 +257,40 @@ var Game = function (options) {
         context.drawImage(gameWonBg, 0, 0);
     }
 
-    /*
-    bmp = new createjs.Bitmap(bg);
-    bmp.cache(0, 0, bg.width, bg.height);
-    
-    stage = new createjs.Stage(canvas);
-    stage.addChild(bmp);
-    */
+    function getBgEffect () {
+        var effects = player.getEffects();
+        if (effects.blur != effectCache.blur ||
+            effects.invert != effectCache.invert ||
+            effects.brightness != effectCache.brightness) {
+
+            effectCache.blur = effects.blur;
+            effectCache.invert = effects.invert;
+            effectCache.brightness = effects.brightness;
+
+            // draw default image to canvas
+            context.drawImage(bg, 0, 0);
+            // read data from canvas
+            bgEffect = context.getImageData(0, 0, canvas.width, canvas.height);
+
+            // apply filter per filter
+            if (effects.blur > 0) {
+                bgEffect = blur(bgEffect, canvas.width, canvas.height, effects.blur * 2);
+            }
+            if (effects.invert > 0) {
+                bgEffect = hsl(bgEffect, canvas.width, canvas.height, -80, 100, 0);
+            }
+            if (effects.brightness > 0) {
+                bgEffect = hsl(bgEffect, canvas.width, canvas.height, 20, 80, 0);
+            }
+            context.putImageData(bgEffect, 0, 0);
+
+            buffer.getContext('2d').drawImage(canvas, 0, 0);
+        }
+    }
 
     function clear () {
-        /*
-        var brightnessValue     = 0;
-        var contrastValue       = 0;
-        var saturationValue     = 0;
-        var hueValue            = 0;
-        var blurXValue          = 0;
-        var blurYValue          = 0;
-        var redChannelvalue     = 255;
-        var greenChannelValue   = 255;
-        var blueChannelValue    = 255;
-
-        cm = new createjs.ColorMatrix();
-        cm.adjustColor(brightnessValue, contrastValue, saturationValue, hueValue);
-
-        colorFilter = new createjs.ColorMatrixFilter(cm);
-        blurFilter = new createjs.BoxBlurFilter(blurXValue,  blurYValue, 2);
-        redChannelFilter = new createjs.ColorFilter(redChannelvalue/255,1,1,1);
-        greenChannelFilter = new createjs.ColorFilter(1,greenChannelValue/255,1,1);
-        blueChannelFilter = new createjs.ColorFilter(1,1,blueChannelValue/255,1);
-        bmp.filters = [colorFilter, blurFilter, redChannelFilter, greenChannelFilter, blueChannelFilter];
-
-        bmp.updateCache();
-        stage.update();
-        */
-        context.drawImage(bg, 0, 0);
+        getBgEffect();
+        context.drawImage(buffer, 0, 0);
     }
 
     function drawLevel () {

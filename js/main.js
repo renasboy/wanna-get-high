@@ -90,8 +90,8 @@ window.onload = function () {
         speed: 25,
         duration: 6000,
         effects: {
-            blur: 0,
-            brightness: -10,
+            blur: 1,
+            brightness: 110,
         }
     });
     var lsd         = new High({

@@ -4,30 +4,24 @@
 <meta charset="utf-8">
 <title>Wanna get high?</title>
 
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4145216-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
 <script>  
 var polyfilter_scriptpath = '/js/lib/';  
 </script>
 
-<script src="/js/cssParser.js"></script>
-<script src="/js/css-filters-polyfill.js"></script>
-<!--<script src="/js/easel.js"></script>-->
-
-<!--
-<script src="/js/easeljs/utils/UID.js"></script>
-<script src="/js/easeljs/geom/Matrix2D.js"></script>
-<script src="/js/easeljs/events/EventDispatcher.js"></script>
-<script src="/js/easeljs/display/DisplayObject.js"></script>
-<script src="/js/easeljs/display/Container.js"></script>
-<script src="/js/easeljs/display/Stage.js"></script>
-<script src="/js/easeljs/events/MouseEvent.js"></script>
-<script src="/js/easeljs/display/Bitmap.js"></script>
-<script src="/js/easeljs/geom/Rectangle.js"></script>
-<script src="/js/easeljs/filters/Filter.js"></script>
-<script src="/js/easeljs/filters/BoxBlurFilter.js"></script>
-<script src="/js/easeljs/filters/ColorFilter.js"></script>
-<script src="/js/easeljs/filters/ColorMatrix.js"></script>
-<script src="/js/easeljs/filters/ColorMatrixFilter.js"></script>
--->
+<script src="/js/blur.js"></script>
+<script src="/js/hsl.js"></script>
 
 <script src="/js/game.js"></script>
 <script src="/js/high.js"></script>
@@ -68,6 +62,32 @@ var polyfilter_scriptpath = '/js/lib/';
 
 <canvas id="game-canvas"></canvas>
 </div>
+
+<div style="width: 720px; text-align: center; margin: 0px auto;">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-send="false" data-layout="button_count" data-width="70" data-show-faces="false"></div>
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-lang="en">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<div class="g-plusone" data-size="short"></div>
+<script type="text/javascript">
+  window.___gcfg = {lang: 'en-GB'};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
 
 </body>
 </html>

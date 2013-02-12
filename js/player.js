@@ -49,7 +49,7 @@ var Player = function (options) {
         effects         = {
             blur: 0,
             invert: 0,
-            brightness: 100
+            brightness: 0
         };
         
         // turns to true if pocket is empty
@@ -139,13 +139,18 @@ var Player = function (options) {
             effects.brightness -= high.effects.brightness;
         }
     }
-    function getEffects () {
+    exports.getEffects = function () {
+        return effects;
+    }
+    /*
+    exports.getEffects = function () {
         if (!isHigh) {
             return 'none';
         }
         return 'blur(' + effects.blur + 'px) invert(' + effects.invert + ')';
         return 'blur(' + effects.blur + 'px) invert(' + effects.invert + ') brightness(' + effects.brightness + '%)';
     }
+    */
     exports.getHigh = function (high) {
         setTimeout(function () {
             getFromPocket(high);
@@ -201,8 +206,6 @@ var Player = function (options) {
         return false;
     };
     exports.update = function () {
-        canvas.style.polyfilter = getEffects();
-
         // getting high
         if (isHigh) {
             y -= speed;
