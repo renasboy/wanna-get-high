@@ -259,7 +259,8 @@ var Game = function (options) {
 
     function getBgEffect () {
         var effects = player.getEffects();
-        if (effects.blur != effectCache.blur ||
+        if (bgEffect == null ||
+            effects.blur != effectCache.blur ||
             effects.invert != effectCache.invert ||
             effects.brightness != effectCache.brightness) {
 
