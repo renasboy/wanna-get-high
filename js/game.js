@@ -13,20 +13,6 @@ var Game = function (options) {
     var over        = false;
     var won         = false;
 
-    var welcome     = new Audio('sounds/wanna_get_high.wav');
-    welcome.play();
-
-    var goodbye     = new Audio('sounds/bring_a_towel.wav');
-    var error       = new Audio('sounds/error.wav');
-    var uhu         = new Audio('sounds/uhu.wav');
-
-    // bg, effect and buffer
-    var bgEffect    = null;
-    var effectCache = {};
-    var buffer      = document.createElement('canvas');
-    buffer.width    = canvas.width;
-    buffer.height   = canvas.height;
-
     var bg          = new Image();
     bg.src          = 'images/bg.jpg';
 
@@ -38,6 +24,29 @@ var Game = function (options) {
 
     var highIcons   = new Image();
     highIcons.src   = 'images/high_sprite.png';
+
+    var welcome     = new Audio('sounds/wanna_get_high.wav');
+    welcome.play();
+
+    /*
+    var bgAudio     = new Audio('sounds/bg.wav'); 
+    bgAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    bgAudio.play();
+    */
+
+    var goodbye     = new Audio('sounds/bring_a_towel.wav');
+    var error       = new Audio('sounds/error.wav');
+    var uhu         = new Audio('sounds/uhu.wav');
+
+    // bg, effect and buffer
+    var bgEffect    = null;
+    var effectCache = {};
+    var buffer      = document.createElement('canvas');
+    buffer.width    = canvas.width;
+    buffer.height   = canvas.height;
 
     // THIS IS THE GAME LOGIC
     step = function () {
@@ -270,20 +279,25 @@ var Game = function (options) {
 
             // draw default image to canvas
             context.drawImage(bg, 0, 0);
-            // read data from canvas
-            bgEffect = context.getImageData(0, 0, canvas.width, canvas.height);
 
-            // apply filter per filter
-            if (effects.blur > 0) {
-                bgEffect = blur(bgEffect, canvas.width, canvas.height, effects.blur * 2);
+            // TODO check this, fixed a bug but was sleeping
+            if (effects.blur > 0 ||
+                effects.invert > 0 ||
+                effects.brightness > 0) {
+                // read data from canvas
+                bgEffect = context.getImageData(0, 0, canvas.width, canvas.height);
+                // apply filter per filter
+                if (effects.blur > 0) {
+                    bgEffect = blur(bgEffect, canvas.width, canvas.height, effects.blur * 2);
+                }
+                if (effects.invert > 0) {
+                    bgEffect = hsl(bgEffect, canvas.width, canvas.height, -80, 100, 0);
+                }
+                if (effects.brightness > 0) {
+                    bgEffect = hsl(bgEffect, canvas.width, canvas.height, 20, 80, 0);
+                }
+                context.putImageData(bgEffect, 0, 0);
             }
-            if (effects.invert > 0) {
-                bgEffect = hsl(bgEffect, canvas.width, canvas.height, -80, 100, 0);
-            }
-            if (effects.brightness > 0) {
-                bgEffect = hsl(bgEffect, canvas.width, canvas.height, 20, 80, 0);
-            }
-            context.putImageData(bgEffect, 0, 0);
 
             buffer.getContext('2d').drawImage(canvas, 0, 0);
         }
